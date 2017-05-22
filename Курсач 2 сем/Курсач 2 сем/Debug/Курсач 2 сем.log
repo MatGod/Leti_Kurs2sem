@@ -1,18 +1,9 @@
-﻿Сборка начата 20.05.2017 12:25:44.
-     1>Проект "C:\Users\MatGod\Documents\Visual Studio 2013\Projects\Курсач 2 сем\Курсач 2 сем\Курсач 2 сем.vcxproj" в узле 2 (целевые объекты Build).
-     1>ClCompile:
-         D:\Programs\Visual Studio 13 Ultimate\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Курсач 2 сем.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt "Курсач 2 сем.cpp"
-         Курсач 2 сем.cpp
-     1>c:\users\matgod\documents\visual studio 2013\projects\курсач 2 сем\курсач 2 сем\курсач 2 сем.cpp(8): warning C4101: choise3: неиспользованная локальная переменная
-     1>c:\users\matgod\documents\visual studio 2013\projects\курсач 2 сем\курсач 2 сем\курсач 2 сем.cpp(8): warning C4101: choise4: неиспользованная локальная переменная
-     1>c:\users\matgod\documents\visual studio 2013\projects\курсач 2 сем\курсач 2 сем\курсач 2 сем.cpp(9): warning C4101: ch: неиспользованная локальная переменная
-     1>c:\users\matgod\documents\visual studio 2013\projects\курсач 2 сем\курсач 2 сем\simple functions.h(63): warning C4715: fileNull: значение возвращается не при всех путях выполнения
-       Link:
-         D:\Programs\Visual Studio 13 Ultimate\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\MatGod\Documents\Visual Studio 2013\Projects\Курсач 2 сем\Debug\Курсач 2 сем.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\MatGod\Documents\Visual Studio 2013\Projects\Курсач 2 сем\Debug\Курсач 2 сем.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\MatGod\Documents\Visual Studio 2013\Projects\Курсач 2 сем\Debug\Курсач 2 сем.lib" /MACHINE:X86 Debug\stdafx.obj
-         "Debug\Курсач 2 сем.obj"
-         Курсач 2 сем.vcxproj -> C:\Users\MatGod\Documents\Visual Studio 2013\Projects\Курсач 2 сем\Debug\Курсач 2 сем.exe
-     1>Сборка проекта "C:\Users\MatGod\Documents\Visual Studio 2013\Projects\Курсач 2 сем\Курсач 2 сем\Курсач 2 сем.vcxproj" завершена (целевые объекты Build).
-
-Сборка успешно завершена.
-
-Затраченное время: 00:00:02.33
+﻿  stdafx.cpp
+  Курсач 2 сем.cpp
+d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\simple functions.h(32): warning C4473: "fscanf": передано недостаточно аргументов для строки формата
+  d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\simple functions.h(32): note: заполнители и их параметры ожидают переменное число аргументов в количестве 1, но было предоставлено 0
+  d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\simple functions.h(32): note: отсутствующий вариативный аргумент "1" требуется для строки форматирования "%c"
+d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\курсач 2 сем.cpp(9): warning C4101: ch: неиспользованная локальная переменная
+d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\simple functions.h(95): warning C4715: fileNull: значение возвращается не при всех путях выполнения
+  Курсач 2 сем.vcxproj -> D:\Study\Учёба\Прога\1 курс\2 сем\Курсач\Leti_Kurs2sem\Курсач 2 сем\Debug\Курсач 2 сем.exe
+  Курсач 2 сем.vcxproj -> D:\Study\Учёба\Прога\1 курс\2 сем\Курсач\Leti_Kurs2sem\Курсач 2 сем\Debug\Курсач 2 сем.pdb (Partial PDB)

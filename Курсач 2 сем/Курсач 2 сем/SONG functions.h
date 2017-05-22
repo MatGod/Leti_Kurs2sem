@@ -57,3 +57,15 @@ SONG *deleteSong(SONG *song){
 	free(song);
 	return NULL;
 }
+
+void printSong(SONG *song) {
+	system("cls");
+	printf("Название песни: %s\n", song->name);
+	printf("Исполнитель:	%s\n", song->author->name);
+	printf("Альбом:			%s\n\n", song->album->name);
+	for (unsigned i = 0; song->text[i][0] != '\0'; i++) {
+		printf("%s\n", song->text[i]);
+	}
+	printf("\n");
+	system("pause");
+}

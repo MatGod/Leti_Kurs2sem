@@ -7,7 +7,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	setlocale(LC_ALL, "Russian");
 	char choise1, choise2;
 	char ch;
-	AUTHOR *base = NULL;
+	AUTHOR **base = NULL;
+	unsigned authors = 0;
 	TRACK *playlist = NULL;
 	do {
 		system("cls");

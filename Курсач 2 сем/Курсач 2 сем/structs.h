@@ -12,6 +12,7 @@ struct ALBUM{
 	unsigned songKol = 0;
 	SONG **songs = NULL;
 	ALBUM *next = NULL;
+	struct AUTHOR *author = NULL;
 };
 struct AUTHOR{
 	char *name = NULL;
