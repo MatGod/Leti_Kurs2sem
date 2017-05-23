@@ -12,12 +12,12 @@ AUTHOR **getBaseFromFile(FILE *file) {
 AUTHOR **getBase(AUTHOR **base) {
 	char choise;
 	FILE *file;
-	system("cls");
-	puts("Нажмите клавишу с соответствующим номером пункта:");
-	puts("(1) - Создать базу вручную.");
-	puts("(2) - Создать базу на основе файла.");
-	choise = _getch();
 	do {
+		system("cls");
+		puts("Нажмите клавишу с соответствующим номером пункта:");
+		puts("(1) - Создать базу вручную.");
+		puts("(2) - Создать базу на основе файла.");
+		choise = _getch();
 		switch (choise) {
 		case '1': {
 			base = getBaseFromKeyboard(base);

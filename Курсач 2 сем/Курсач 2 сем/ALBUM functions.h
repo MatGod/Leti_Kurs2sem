@@ -27,7 +27,7 @@ ALBUM *getAlbumFromKeyboard(){
 					break;
 				}
 				case '2': {
-					break;
+					return NULL;
 				}
 				default: {
 					system("cls");
@@ -58,6 +58,41 @@ ALBUM *getAlbumFromFile(FILE *albumFile){
 			album->songs[i] = getSongFromKeyboard();
 		}
 	}
+	else {
+		puts("Ошибка. Недостаточно памяти.");
+		return NULL;
+	}
+	return album;
+}
+
+ALBUM *getAlbum(){
+	ALBUM *album = (ALBUM*)calloc(1, sizeof(ALBUM));
+	char choise, choise2;
+	FILE *file = NULL;
+	do {
+		system("cls");
+		puts("Каким образов ввести альбом?");
+		puts("(1) - Считать из файла.");
+		puts("(2) - Ввести с клавиатуры.");
+		choise = _getch();
+		switch (choise) {
+		case '1': {
+			do {
+				system("cls");
+				puts("Введите адрес файла с песней: ");
+				file = fopen(getStr(), "r");
+				if (fileNull()) {
+					
+				}
+				else {
+					album = getAlbumFromFile(file);
+				}
+			} while (file == NULL && choise2 == '1');
+		}
+		default:
+			break;
+		}
+	} while (choise < 49 || choise > 50);
 	return album;
 }
 
