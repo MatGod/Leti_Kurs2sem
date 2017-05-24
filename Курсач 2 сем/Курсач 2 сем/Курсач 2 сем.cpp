@@ -2,7 +2,7 @@
 #include "TRACK functions.h"
 #pragma warning (disable: 4996)
 
-int _tmain(int argc, _TCHAR* argv[])
+/*int _tmain(int argc, _TCHAR* argv[])
 {
 	setlocale(LC_ALL, "Russian");
 	char choise1, choise2;
@@ -104,5 +104,19 @@ int _tmain(int argc, _TCHAR* argv[])
 	} while (choise1 != '0');
 	puts("Выход из программы...");
 	_getch();
+	return 0;
+}
+*/
+
+int _tmain(int argc, _TCHAR* argv[]) {
+	setlocale(LC_ALL, "Russian");
+	//FILE *file = fopen("files/base/System Of A Down/System Of A Down/album.txt", "r");
+	ALBUM *album = getAlbumFromKeyboard();
+	//fclose(file);
+	system("pause");
+	album = deleteSongFromAlbum(album);
+	system("pause");
+	printAlbum(album);
+	system("pause");
 	return 0;
 }

@@ -1,6 +1,17 @@
 #include "SONG functions.h"
 #pragma warning (disable: 4996)
 
+ALBUM *deleteAlbum(ALBUM *album) {
+	free(album->name);
+	for (unsigned i = 0; i < album->songKol; i++) {
+		album->songs[i] = deleteSong(album->songs[i]);
+	}
+	free(album->songs);
+	free(album);
+	return NULL;
+}
+//Работает
+
 ALBUM *getAlbumFromKeyboard(){
 	ALBUM *album = (ALBUM*)calloc(1, sizeof(ALBUM));
 	char choise = '1';
@@ -46,27 +57,53 @@ ALBUM *getAlbumFromKeyboard(){
 	}
 	return album;
 }
+//Работает
 
 ALBUM *getAlbumFromFile(FILE *albumFile){
+	system("cls");
 	ALBUM *album = (ALBUM*)calloc(1, sizeof(ALBUM));
-	album->name = getStrFromFile(albumFile);
-	album->year = strToUnsigned(getStrFromFile(albumFile));
-	album->songKol = strToUnsigned(getStrFromFile(albumFile));
-	album->songs = (SONG**)realloc(album->songs, album->songKol*sizeof(SONG*));
-	if (album->songs != NULL){
-		for (unsigned i = 0; i < album->songKol; i++){
-			album->songs[i] = getSongFromKeyboard();
+	if (album != NULL) {
+		char *songAdress;
+		FILE *songFile;
+		album->name = getStrFromFile(albumFile);
+		album->year = strToUnsigned(getStrFromFile(albumFile));
+		album->songKol = strToUnsigned(getStrFromFile(albumFile));
+		album->songs = (SONG**)calloc(album->songKol, sizeof(SONG*));
+		if (album->songs != NULL) {
+			for (unsigned i = 0; i < album->songKol; i++) {
+				songAdress = getStrFromFile(albumFile);
+				songFile = fopen(songAdress, "r");
+				if (songFile == NULL) {
+					printf("Ошибка открытия файла %s.\n", songAdress);
+				}
+				else {
+					album->songs[i] = getSongFromFile(songFile);
+					if (album->songs[i] == NULL) {
+						album->songKol = i;
+					}
+					else {
+						album->songs[i]->album = album;
+					}
+				}
+				fclose(songFile);
+			}
+		}
+		else {
+			puts("Ошибка. Недостаточно памяти.");
+			album->songKol = 0;
+			deleteAlbum(album);
+			return NULL;
 		}
 	}
 	else {
 		puts("Ошибка. Недостаточно памяти.");
-		return NULL;
 	}
 	return album;
 }
+//Работает
 
 ALBUM *getAlbum(){
-	ALBUM *album = (ALBUM*)calloc(1, sizeof(ALBUM));
+	ALBUM *album = NULL;
 	char choise, choise2;
 	FILE *file = NULL;
 	do {
@@ -79,15 +116,22 @@ ALBUM *getAlbum(){
 		case '1': {
 			do {
 				system("cls");
-				puts("Введите адрес файла с песней: ");
+				puts("Введите адрес файла с альбомом: ");
 				file = fopen(getStr(), "r");
-				if (fileNull()) {
-					
+				if (file == NULL) {
+					if (!fileNull()) {
+						break;
+					}
 				}
 				else {
 					album = getAlbumFromFile(file);
 				}
-			} while (file == NULL && choise2 == '1');
+			} while (file == NULL);
+			break;
+		}
+		case '2':{
+			album = getAlbumFromKeyboard();
+			break;
 		}
 		default:
 			break;
@@ -95,16 +139,7 @@ ALBUM *getAlbum(){
 	} while (choise < 49 || choise > 50);
 	return album;
 }
-
-ALBUM *deleteAlbum(ALBUM *album) {
-	free(album->name);
-	for (unsigned i = 0; i < album->songKol; i++) {
-		album->songs[i] = deleteSong(album->songs[i]);
-	}
-	free(album->songs);
-	free(album);
-	return NULL;
-}
+//Работает
 
 void addSongToAlbum(ALBUM *album) {
 	SONG *song = NULL;
@@ -150,9 +185,11 @@ void addSongToAlbum(ALBUM *album) {
 					song = getSongFromFile(songFile);
 				}
 			} while (songFile == NULL && choise2 == '1');
+			break;
 			}
 		case '2': {
 			song = getSongFromKeyboard();
+			break;
 		}
 		default: {
 			system("cls");
@@ -164,28 +201,41 @@ void addSongToAlbum(ALBUM *album) {
 	} while (choise1 < 49 || choise1 > 50);
 	if (song != NULL) {
 		album->songKol++;
-		album->songs = (SONG**)realloc(album->songs, album->songKol * sizeof(SONG*));
-		album->songs[album->songKol - 1] = song;
-		printf("Песня %s успешно добавлена в альбом %s.\n", song->name, album->name);
+		SONG **test = (SONG**)realloc(album->songs, album->songKol * sizeof(SONG*));
+		if (test != NULL) {
+			album->songs = test;
+			album->songs[album->songKol - 1] = song;
+			song->album = album;
+			song->author = album->author;
+			printf("Песня %s успешно добавлена в альбом %s.\n", song->name, album->name);
+		}
 	}
 }
+//Работает
 
 void printAlbum(ALBUM *album) {
 	system("cls");
-	printf("Песни в альбоме %s:\n");
-	for (unsigned i = 0; i < album->songKol; i++) {
-		printf("%d - %s\n", i + 1, album->songs[i]->name);
+	if (album != NULL) {
+		printf("Песни в альбоме %s:\n", album->name);
+		for (unsigned i = 0; i < album->songKol; i++) {
+			printf("%d - %s\n", i + 1, album->songs[i]->name);
+		}
+	}
+	else {
+		puts("Альбома не существует.");
 	}
 }
+//Работает
 
 void printAlbumInfo(ALBUM *album) {
 	system("cls");
 	printf("Название альбома: %s\n", album->name);
 	printf("Исполнитель:      %s\n", album->author->name);
 	printf("Год издания:      %d\n", album->year);
-	printf("Количество песен: $d\n", album->songKol);
+	printf("Количество песен: %d\n", album->songKol);
 	system("pause");
 }
+//Работает
 
 ALBUM *deleteSongFromAlbum(ALBUM *album) {
 	unsigned num = 0;
@@ -237,3 +287,39 @@ ALBUM *deleteSongFromAlbum(ALBUM *album) {
 	} while (num == 0);
 	return album;
 }
+//Работает
+
+ALBUM *changeAlbum(ALBUM *album) {
+	char choise;
+	do {
+		system("cls");
+		puts("Что вы хотите сделать с альбомом?");
+		puts("(1) - Добавить песни в альбом.");
+		puts("(2) - Удалить песню из альбома.");
+		puts("(3) - Удалить альбом.");
+		choise = _getch();
+		switch (choise)
+		{
+		case '1': {
+			addSongToAlbum(album);
+			break;
+		}
+		case '2': {
+			album = deleteSongFromAlbum(album);
+			break;
+		}
+		case '3': {
+			album = deleteAlbum(album);
+			break;
+		}
+		default: {
+			system("cls");
+			puts("Пункта с таким номером нет!");
+			system("pause");
+			break;
+		}
+		}
+	} while (choise < 49 || choise > 51);
+	return album;
+}
+//Работает

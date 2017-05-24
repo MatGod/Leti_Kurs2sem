@@ -8,10 +8,12 @@ char* getStr(){
 	unsigned kol = 0;
 	do{
 		ch = _getch();
-		if (ch == '\b' && kol > 0){
-			kol--;
-			str = (char*)realloc(str, kol*sizeof(char));
-			printf("\b \b");
+		if (ch == '\b') {
+			if (kol > 0) {
+				kol--;
+				str = (char*)realloc(str, kol * sizeof(char));
+				printf("\b \b");
+			}
 		}
 		else{
 			kol++;
@@ -23,13 +25,14 @@ char* getStr(){
 	str[kol - 1] = '\0';
 	return str;
 }
+//Работает
 
 char* getStrFromFile(FILE *file){
 	char ch;
 	char *str = NULL;
 	unsigned kol = 0;
 	do{
-		ch = fscanf(file, "%c");
+		ch = getc(file);
 		kol++;
 		str = (char*)realloc(str, kol*sizeof(char));
 		str[kol - 1] = ch;
@@ -37,26 +40,32 @@ char* getStrFromFile(FILE *file){
 	str[kol - 1] = '\0';
 	return str;
 }
+//Работает
 
 unsigned getUnsigned(){
 	unsigned num = 0, i;
 	char *str;
 	bool right;
 	do{
+		num = 0;
 		right = true;
 		str = getStr();
 		i = 0;
-		do{
-			if (str[i] < 48 || str[i] > 57){
+		while (str[i] != '\0') {
+			if (str[i] < 48 || str[i] > 57) {
 				right = false;
 				printf("Ошибка ввода. Введите положительное число или 0...\n");
 				break;
 			}
+			else {
+				num = num * 10 + str[i] - 48;
+			}
 			i++;
-		} while (str[i-1] != '\0');
+		}
 	} while (!right);
 	return num;
 }
+//Доделать на ограничение ввода
 
 unsigned strToUnsigned(char *str){
 	unsigned num = 0;
@@ -69,6 +78,7 @@ unsigned strToUnsigned(char *str){
 	}
 	return num;
 }
+//Работает
 
 bool fileNull(){
 	char choise;
@@ -93,6 +103,7 @@ bool fileNull(){
 		}
 	} while ((choise < 49) || (choise > 50));
 }
+//Работает
 
 void FAQ(){
 	FILE *file;
@@ -112,3 +123,4 @@ void FAQ(){
 	}
 	system("pause");
 }
+//Работает
