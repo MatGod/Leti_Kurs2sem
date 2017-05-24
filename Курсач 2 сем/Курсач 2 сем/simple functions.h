@@ -42,41 +42,20 @@ char* getStrFromFile(FILE *file){
 }
 //Работает
 
-unsigned getUnsigned(){
-	unsigned num = 0, i;
-	char *str;
-	bool right;
-	do{
-		num = 0;
-		right = true;
-		str = getStr();
-		i = 0;
-		while (str[i] != '\0') {
-			if (str[i] < 48 || str[i] > 57) {
-				right = false;
-				printf("Ошибка ввода. Введите положительное число или 0...\n");
-				break;
-			}
-			else {
-				num = num * 10 + str[i] - 48;
-			}
-			i++;
-		}
-	} while (!right);
-	return num;
-}
-//Доделать на ограничение ввода
-
 unsigned strToUnsigned(char *str){
-	unsigned num = 0;
+	double num = 0;
 	for (unsigned i = 0; str[i] != '\0'; i++){
 		if (str[i] < 48 || str[i] > 57){
 			puts("Ошибка! Невозможно преобразовать строку в число!");
 			return 0;
 		}
 		num = num * 10 + str[i] - 48;
+		if (num > INT_MAX) {
+			puts("Ошибка. Число слишком велико.");
+			return 0;
+		}
 	}
-	return num;
+	return (unsigned)num;
 }
 //Работает
 

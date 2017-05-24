@@ -1,8 +1,7 @@
-﻿Сборка начата 24.05.2017 11:58:55.
-     1>Проект "D:\Учёба\Прога\Сем 2\Курсач\Leti_Kurs2sem\Курсач 2 сем\Курсач 2 сем\Курсач 2 сем.vcxproj" в узле 2 (целевые объекты Build).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Cpp.Platform.targets(64,5): error MSB8020: The build tools for v140 (Platform Toolset = 'v140') cannot be found. To build using the v140 build tools, please install v140 build tools.  Alternatively, you may upgrade to the current Visual Studio tools by selecting the Project menu or right-click the solution, and then selecting "Upgrade Solution...".
-     1>Сборка проекта "D:\Учёба\Прога\Сем 2\Курсач\Leti_Kurs2sem\Курсач 2 сем\Курсач 2 сем\Курсач 2 сем.vcxproj" завершена (целевые объекты Build) с ошибкой.
-
-Ошибка сборки.
-
-Затраченное время: 00:00:00.06
+﻿  Курсач 2 сем.cpp
+d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\song functions.h(9): warning C4101: str: неиспользованная локальная переменная
+d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\album functions.h(124): warning C4101: choise2: неиспользованная локальная переменная
+d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\author functions.h(121): warning C4101: choise2: неиспользованная локальная переменная
+d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\simple functions.h(84): warning C4715: fileNull: значение возвращается не при всех путях выполнения
+  Курсач 2 сем.vcxproj -> D:\Study\Учёба\Прога\1 курс\2 сем\Курсач\Leti_Kurs2sem\Курсач 2 сем\Debug\Курсач 2 сем.exe
+  Курсач 2 сем.vcxproj -> D:\Study\Учёба\Прога\1 курс\2 сем\Курсач\Leti_Kurs2sem\Курсач 2 сем\Debug\Курсач 2 сем.pdb (Full PDB)

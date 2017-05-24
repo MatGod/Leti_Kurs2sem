@@ -24,9 +24,8 @@
 			system("cls");
 			puts("Нажмите клавишу с соответствующим номером пункта:");
 			puts("(1) - Создать новую базу.");
-			puts("(2) - Добавить песни в базу.");
-			puts("(3) - Удалить песни из базы.");
-			puts("(4) - Удалить базу.");
+			puts("(2) - Изменить/посмотреть существующую базу.");
+			puts("(3) - Удалить базу.");
 			choise2 = _getch();
 			do {
 				switch (choise2) {
@@ -35,14 +34,10 @@
 					break;
 				}
 				case '2': {
-					base = addSongToBase(base);
+					base = сhangeBase(base);
 					break;
 				}
 				case '3': {
-					base = deleteSongFromBase(base);
-					break;
-				}
-				case '4': {
 					base = deleteBase(base);
 					break;
 				}
@@ -53,14 +48,14 @@
 					break;
 				}
 				}
-			} while ((choise2 < 49) || (choise2 > 52));
+			} while ((choise2 < 49) || (choise2 > 51));
 			break;
 		}
 		case '2': { // работа с плейлистом
 			system("cls");
 			puts("Нажмите клавишу с соответствующим номером пункта:");
 			puts("(1) - Создать новый плейлист.");
-			puts("(2) - Редактировать текущий плейлист.");
+			puts("(2) - Редактировать/посмотреть текущий плейлист.");
 			puts("(3) - Удалить текущий плейлист.");
 			choise2 = _getch();
 			do {
@@ -87,7 +82,7 @@
 			} while ((choise2 < 49) || (choise2 > 51));
 			break;
 		}
-		case '3': { // справка
+		case '3': {
 			FAQ();
 			break;
 		}
@@ -110,13 +105,8 @@
 
 int _tmain(int argc, _TCHAR* argv[]) {
 	setlocale(LC_ALL, "Russian");
-	//FILE *file = fopen("files/base/System Of A Down/System Of A Down/album.txt", "r");
-	ALBUM *album = getAlbumFromKeyboard();
-	//fclose(file);
-	system("pause");
-	album = deleteSongFromAlbum(album);
-	system("pause");
-	printAlbum(album);
+	unsigned a = strToUnsigned(getStr());
+	printf("\n%d\n", a);
 	system("pause");
 	return 0;
 }

@@ -1,6 +1,7 @@
 #include "AUTHOR functions.h"
 
-AUTHOR **getBaseFromKeyboard(AUTHOR **base) {
+AUTHOR **getBaseFromKeyboard() {
+	AUTHOR **base = NULL;
 	return base;
 }
 
@@ -20,7 +21,7 @@ AUTHOR **getBase(AUTHOR **base) {
 		choise = _getch();
 		switch (choise) {
 		case '1': {
-			base = getBaseFromKeyboard(base);
+			base = getBaseFromKeyboard();
 			break;
 		}
 		case '2': {
@@ -46,7 +47,7 @@ AUTHOR **getBase(AUTHOR **base) {
 	return base;
 }
 
-AUTHOR **deleteSongFromBase(AUTHOR **base) {
+AUTHOR **deleteAuthorFromBase(AUTHOR **base) {
 	return base;
 }
 
@@ -54,6 +55,6 @@ AUTHOR **deleteBase(AUTHOR **base) {
 	return base;
 }
 
-AUTHOR **addSongToBase(AUTHOR **base) {
-	return base;
+void addAuthorToBase(AUTHOR **base) {
+	
 }
