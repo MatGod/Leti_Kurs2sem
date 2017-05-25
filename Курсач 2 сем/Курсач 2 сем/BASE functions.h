@@ -1,16 +1,81 @@
 #include "AUTHOR functions.h"
 
-AUTHOR **getBaseFromKeyboard() {
-	AUTHOR **base = NULL;
+BASE *getBaseFromKeyboard() {
+	BASE *base = (BASE*)calloc(1, sizeof(BASE));
+	unsigned kol;
+	AUTHOR *author = NULL, *lastAuthor = NULL;
+	system("cls");
+	printf("Введите количество исполнителей: ");
+	kol = strToUnsigned(getStr());
+	for (unsigned i = 1; i <= kol; i++) {
+		author = getAuthorFromKeyboard();
+		if (author != NULL) {
+			lastAuthor = author;
+			if (i == 1) {
+				base->authors = author;
+				lastAuthor = author;
+			}
+			else {
+				lastAuthor->next = author;
+				lastAuthor = lastAuthor->next;
+			}
+		}
+		else {
+			printf("Ошибка. Количество введённых исполнителей - %d.\n", i - 1);
+			if (i == 1) {
+				free(base);
+				base = NULL;
+			}
+			break;
+		}
+	}
 	return base;
 }
+//Работает
 
-AUTHOR **getBaseFromFile(FILE *file) {
-	AUTHOR **base = NULL;
+BASE *getBaseFromFile(FILE *file) {
+	BASE *base = (BASE*)calloc(1, sizeof(BASE));
+	FILE *authorFile = NULL;
+	char *authorAdress = NULL;
+	unsigned kol;
+	AUTHOR *author = NULL, *lastAuthor = NULL;
+	system("cls");
+	kol = strToUnsigned(getStrFromFile(file));
+	for (unsigned i = 1; i <= kol; i++) {
+		authorAdress = getStrFromFile(file);
+		authorFile = fopen(authorAdress, "r");
+		if (authorFile != NULL) {
+			author = getAuthorFromFile(authorFile);
+			if (author != NULL) {
+				lastAuthor = author;
+				if (i == 1) {
+					base->authors = author;
+					lastAuthor = author;
+				}
+				else {
+					lastAuthor->next = author;
+					lastAuthor = lastAuthor->next;
+				}
+			}
+			else {
+				printf("Ошибка. Количество введённых исполнителей - %d.\n", i - 1);
+				if (i == 1) {
+					free(base);
+					base = NULL;
+				}
+				break;
+			}
+		}
+		else {
+			printf("Ошибка открытия файла %s.\n", authorAdress);
+		}
+	}
 	return base;
 }
+//Работает
 
-AUTHOR **getBase(AUTHOR **base) {
+BASE *getBase() {
+	BASE *base = NULL;
 	char choise;
 	FILE *file;
 	do {
@@ -38,23 +103,30 @@ AUTHOR **getBase(AUTHOR **base) {
 			if (file != NULL) {
 				base = getBaseFromFile(file);
 				fclose(file);
-				file = NULL;
 			}
 			break;
 		}
 		}
 	} while ((choise < 49) || (choise > 50));
+	if (base == NULL) {
+		puts("Ввести базу не удалось.");
+	}
+	return base;
+}
+//Работает
+
+void printBase(BASE *base) {
+
+}
+
+BASE *deleteAuthorFromBase(BASE *base) {
 	return base;
 }
 
-AUTHOR **deleteAuthorFromBase(AUTHOR **base) {
+BASE *deleteBase(BASE *base) {
 	return base;
 }
 
-AUTHOR **deleteBase(AUTHOR **base) {
-	return base;
-}
-
-void addAuthorToBase(AUTHOR **base) {
+void addAuthorToBase(BASE *base) {
 	
 }

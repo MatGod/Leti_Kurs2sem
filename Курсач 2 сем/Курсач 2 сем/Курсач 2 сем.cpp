@@ -105,8 +105,8 @@
 
 int _tmain(int argc, _TCHAR* argv[]) {
 	setlocale(LC_ALL, "Russian");
-	unsigned a = strToUnsigned(getStr());
-	printf("\n%d\n", a);
+	BASE *base = getBase();
+	printSong(base->authors->albums[0]->songs[0]);
 	system("pause");
 	return 0;
 }

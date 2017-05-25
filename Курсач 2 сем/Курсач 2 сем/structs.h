@@ -18,9 +18,13 @@ struct AUTHOR{
 	char *name = NULL;
 	unsigned albKol = 0;
 	ALBUM **albums = NULL;
+	AUTHOR *next = NULL;
 };
 struct TRACK {
 	SONG *song = NULL;
 	TRACK *next = NULL;
 	TRACK *prev = NULL;
+};
+struct BASE {
+	AUTHOR *authors = NULL;
 };

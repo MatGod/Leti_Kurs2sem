@@ -65,7 +65,7 @@ void printSong(SONG *song) {
 	printf("Название песни: %s\n", song->name);
 	printf("Исполнитель:	%s\n", song->author->name);
 	printf("Альбом:         %s\n", song->album->name);
-	printf("Год:            %s\n\n", song->album->year);
+	printf("Год:            %d\n\n", song->album->year);
 	for (unsigned i = 0; song->text[i][0] != '\0'; i++) {
 		printf("%s\n", song->text[i]);
 	}

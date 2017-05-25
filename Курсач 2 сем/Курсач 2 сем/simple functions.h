@@ -33,6 +33,9 @@ char* getStrFromFile(FILE *file){
 	unsigned kol = 0;
 	do{
 		ch = getc(file);
+		if (ch == EOF) {
+			ch = '\n';
+		}
 		kol++;
 		str = (char*)realloc(str, kol*sizeof(char));
 		str[kol - 1] = ch;

@@ -2,6 +2,6 @@
 d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\song functions.h(9): warning C4101: str: неиспользованная локальная переменная
 d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\album functions.h(124): warning C4101: choise2: неиспользованная локальная переменная
 d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\author functions.h(121): warning C4101: choise2: неиспользованная локальная переменная
-d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\simple functions.h(84): warning C4715: fileNull: значение возвращается не при всех путях выполнения
+d:\study\учёба\прога\1 курс\2 сем\курсач\leti_kurs2sem\курсач 2 сем\курсач 2 сем\simple functions.h(87): warning C4715: fileNull: значение возвращается не при всех путях выполнения
   Курсач 2 сем.vcxproj -> D:\Study\Учёба\Прога\1 курс\2 сем\Курсач\Leti_Kurs2sem\Курсач 2 сем\Debug\Курсач 2 сем.exe
   Курсач 2 сем.vcxproj -> D:\Study\Учёба\Прога\1 курс\2 сем\Курсач\Leti_Kurs2sem\Курсач 2 сем\Debug\Курсач 2 сем.pdb (Full PDB)
