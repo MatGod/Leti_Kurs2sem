@@ -1,5 +1,14 @@
 #include "AUTHOR functions.h"
 
+AUTHOR *getLastAuthor(BASE *base) {
+	AUTHOR *author = base->authors;
+	while (author->next != NULL) {
+		author = author->next;
+	}
+	return author;
+}
+//Работает
+
 BASE *getBaseFromKeyboard() {
 	BASE *base = (BASE*)calloc(1, sizeof(BASE));
 	unsigned kol;
@@ -110,14 +119,32 @@ BASE *getBase() {
 	} while ((choise < 49) || (choise > 50));
 	if (base == NULL) {
 		puts("Ввести базу не удалось.");
+		
 	}
+	else {
+		puts("База успешно создана.");
+	}
+	system("pause");
 	return base;
 }
 //Работает
 
 void printBase(BASE *base) {
-
+	system("cls");
+	if (base == NULL) {
+		puts("База пуста.");
+	}
+	else {
+		AUTHOR *author = base->authors;
+		unsigned i = 1;
+		while (author != NULL) {
+			printf("%d - %s\n", i, author->name);
+			i++;
+			author = author->next;
+		}
+	}
 }
+//Работает
 
 BASE *deleteAuthorFromBase(BASE *base) {
 	return base;

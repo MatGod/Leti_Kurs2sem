@@ -154,6 +154,13 @@ ALBUM *getAlbum(){
 			break;
 		}
 	} while (choise < 49 || choise > 50);
+	if (album == NULL) {
+		puts("Добавить альбом не удалось.");
+	}
+	else {
+		puts("Альбом успешно добавлен в базу.");
+	}
+	system("pause");
 	return album;
 }
 //Работает
@@ -239,6 +246,47 @@ void printAlbumInfo(ALBUM *album) {
 }
 //Работает
 
+void printSongFromAlbum(ALBUM *album) {
+	unsigned num = 0;
+	char choise;
+	do {
+		system("cls");
+		printAlbum(album);
+		puts("Введите номер песни, которую хотите вывести на экран: ");
+		num = strToUnsigned(getStr());
+		if (num > 0 && num <= album->songKol) {
+			printSong(album->songs[num - 1]);
+			break;
+		}
+		else {
+			do {
+				system("cls");
+				puts("Песни с таким номером нет. Ввести другой номер?");
+				puts("(1) - Да.");
+				puts("(2) - Нет.");
+				choise = _getch();
+				switch (choise) {
+				case '1': {
+					num = 0;
+					break;
+				}
+				case '2': {
+					num = 1;
+					break;
+				}
+				default: {
+					system("cls");
+					puts("Пункта с таким номером нет!");
+					system("pause");
+					break;
+				}
+				}
+			} while (choise < 49 || choise > 50);
+		}
+	} while (num == 0);
+}
+//Работает
+
 ALBUM *deleteSongFromAlbum(ALBUM *album) {
 	unsigned num = 0;
 	char choise;
@@ -298,9 +346,10 @@ ALBUM *changeAlbum(ALBUM *album) {
 		puts("Что вы хотите сделать с альбомом?");
 		puts("(1) - Показать информацию о альбоме.");
 		puts("(2) - Показать список песен.");
-		puts("(3) - Добавить песни в альбом.");
-		puts("(4) - Удалить песню из альбома.");
-		puts("(5) - Удалить альбом.");
+		puts("(3) - Вывести на экран одну из песен.");
+		puts("(4) - Добавить песни в альбом.");
+		puts("(5) - Удалить песню из альбома.");
+		puts("(6) - Удалить альбом.");
 		choise = _getch();
 		switch (choise)
 		{
@@ -313,14 +362,18 @@ ALBUM *changeAlbum(ALBUM *album) {
 			break;
 		}
 		case '3': {
-			addSongToAlbum(album);
+			
 			break;
 		}
 		case '4': {
-			album = deleteSongFromAlbum(album);
+			addSongToAlbum(album);
 			break;
 		}
 		case '5': {
+			album = deleteSongFromAlbum(album);
+			break;
+		}
+		case '6': {
 			album = deleteAlbum(album);
 			break;
 		}
@@ -331,7 +384,7 @@ ALBUM *changeAlbum(ALBUM *album) {
 			break;
 		}
 		}
-	} while (choise < 49 || choise > 51);
+	} while (choise < 49 || choise > 52);
 	return album;
 }
 //Работает

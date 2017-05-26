@@ -106,7 +106,7 @@
 int _tmain(int argc, _TCHAR* argv[]) {
 	setlocale(LC_ALL, "Russian");
 	BASE *base = getBase();
-	printSong(base->authors->albums[0]->songs[0]);
+	printBase(base);
 	system("pause");
 	return 0;
 }
