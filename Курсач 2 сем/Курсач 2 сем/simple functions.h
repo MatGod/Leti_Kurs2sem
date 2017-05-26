@@ -17,7 +17,7 @@ char* getStr(){
 		}
 		else{
 			kol++;
-			str = (char*)realloc(str, kol*sizeof(char));
+			str = (char*)realloc(str, kol * sizeof(char));
 			str[kol - 1] = ch;
 			printf("%c", ch);
 		}
