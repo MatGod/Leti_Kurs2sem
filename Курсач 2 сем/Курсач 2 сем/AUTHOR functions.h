@@ -19,34 +19,31 @@ AUTHOR *getAuthorFromFile(FILE *file){
 	AUTHOR *author = (AUTHOR*)calloc(1, sizeof(AUTHOR));
 	if (author != NULL) {
 		author->name = getStrFromFile(file);
-		author->albKol = strToUnsigned(getStrFromFile(file));
 		ALBUM *album = NULL;
-		author->albums = (ALBUM**)calloc(author->albKol, sizeof(ALBUM*));
-		if (author->albums != NULL) {
-			for (unsigned i = 0; i < author->albKol; i++) {
-				albumAdress = getStrFromFile(file);
+		unsigned i = 0;
+		do {
+			albumAdress = getStrFromFile(file);
+			if (albumAdress[0] != '\0') {
 				albumFile = fopen(albumAdress, "r");
 				if (albumFile == NULL) {
 					printf("Ошибка открытия файла %s.\n", albumAdress);
 				}
 				else {
-					author->albums[i] = getAlbumFromFile(albumFile);
-					if (author->albums[i] == NULL) {
-						author->albKol = i;
+					album = getAlbumFromFile(albumFile);
+					if (album != NULL) {
+						i++;
+						author->albums = (ALBUM**)realloc(author->albums, i * sizeof(ALBUM*));
+						author->albums[i - 1] = album;
+						author->albums[i - 1]->author = author;
+						fixSongAuthor(author->albums[i - 1]);
 					}
-					else {
-						author->albums[i]->author = author;
-						fixSongAuthor(author->albums[i]);
-					}
+					fclose(albumFile);
 				}
-				fclose(albumFile);
 			}
-		}
-		else {
-			puts("Ошибка. Недостаточно памяти.");
-			author->albKol = 0;
-			author = deleteAuthor(author);
-			return NULL;
+		} while (albumAdress[0] != '\0');
+		author->albKol = i;
+		if (i == 0) {
+			puts("Ни один альбом не введён. Исполнитель не создан.");
 		}
 	}
 	else {
@@ -118,7 +115,7 @@ AUTHOR *getAuthorFromKeyboard() {
 
 AUTHOR *getAuthor() {
 	AUTHOR *author = NULL;
-	char choise, choise2;
+	char choise;
 	FILE *file = NULL;
 	do {
 		system("cls");
@@ -216,26 +213,51 @@ void addAlbumToAuthor(AUTHOR *author) {
 			album = deleteAlbum(album);
 		}
 	}
+	else {
+		puts("Добавить альбом не удалось.");
+	}
 }
 //Работает
 
 void printAuthor(AUTHOR *author) {
 	system("cls");
-	if (author != NULL) {
-		printf("Альбомы исполнителя %s:\n", author->name);
-		for (unsigned i = 0; i < author->albKol; i++) {
-			printf("%d - %s\n", i + 1, author->albums[i]->name);
+	printf("Альбомы исполнителя %s:\n", author->name);
+	for (unsigned i = 0; i < author->albKol; i++) {
+		printf("%d - %s\n", i + 1, author->albums[i]->name);
+	}
+}
+//Работает
+
+unsigned notAlbumInAuthor() {
+	char choise;
+	do {
+		system("cls");
+		puts("Альбома с таким номером нет. Ввести другой номер?");
+		puts("(1) - Да.");
+		puts("(2) - Нет.");
+		choise = _getch();
+		switch (choise) {
+		case '1': {
+			return 0;
+			break;
 		}
-	}
-	else {
-		puts("Альбома не существует.");
-	}
+		case '2': {
+			return 1;
+			break;
+		}
+		default: {
+			system("cls");
+			puts("Пункта с таким номером нет!");
+			system("pause");
+			break;
+		}
+		}
+	} while (choise < 49 || choise > 50);
 }
 //Работает
 
 AUTHOR *deleteAlbumFromAuthor(AUTHOR *author) {
 	unsigned num = 0;
-	char choise;
 	do {
 		system("cls");
 		printAuthor(author);
@@ -256,29 +278,7 @@ AUTHOR *deleteAlbumFromAuthor(AUTHOR *author) {
 			break;
 		}
 		else {
-			do {
-				system("cls");
-				puts("Альбома с таким номером нет. Ввести другой номер?");
-				puts("(1) - Да.");
-				puts("(2) - Нет.");
-				choise = _getch();
-				switch (choise) {
-				case '1': {
-					num = 0;
-					break;
-				}
-				case '2': {
-					num = 1;
-					break;
-				}
-				default: {
-					system("cls");
-					puts("Пункта с таким номером нет!");
-					system("pause");
-					break;
-				}
-				}
-			} while (choise < 49 || choise > 50);
+			num = notAlbumInAuthor();
 		}
 	} while (num == 0);
 	return author;
@@ -286,7 +286,6 @@ AUTHOR *deleteAlbumFromAuthor(AUTHOR *author) {
 //Работает
 
 AUTHOR *changeAlbumInAuthor(AUTHOR *author) {
-	char choise;
 	unsigned num;
 	do {
 		system("cls");
@@ -295,32 +294,22 @@ AUTHOR *changeAlbumInAuthor(AUTHOR *author) {
 		num = strToUnsigned(getStr());
 		if (num > 0 && num <= author->albKol) {
 			author->albums[num - 1] = changeAlbum(author->albums[num - 1]);
+			if (author->albums[num - 1] == NULL) {
+				author->albKol--;
+				if (num == 1) {
+					author = deleteAuthor(author);
+				}
+				else{
+					for (unsigned i = num - 1; i < author->albKol; i++) {
+						author->albums[i] = author->albums[i + 1];
+					}
+					author->albums = (ALBUM**)realloc(author->albums, author->albKol * sizeof(ALBUM*));
+				}
+			}
 			break;
 		}
 		else {
-			do {
-				system("cls");
-				puts("Альбома с таким номером нет. Ввести другой номер?");
-				puts("(1) - Да.");
-				puts("(2) - Нет.");
-				choise = _getch();
-				switch (choise) {
-				case '1': {
-					num = 0;
-					break;
-				}
-				case '2': {
-					num = 1;
-					break;
-				}
-				default: {
-					system("cls");
-					puts("Пункта с таким номером нет!");
-					system("pause");
-					break;
-				}
-				}
-			} while (choise < 49 || choise > 50);
+			num = notAlbumInAuthor();
 		}
 	} while (num == 0);
 	return author;
@@ -367,7 +356,7 @@ AUTHOR *changeAuthor(AUTHOR *author) {
 			break;
 		}
 		}
-	} while (choise < 49 || choise > 51);
+	} while (choise < 49 || choise > 53);
 	return author;
 }
 //Работает

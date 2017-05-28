@@ -82,32 +82,32 @@ ALBUM *getAlbumFromFile(FILE *albumFile){
 	if (album != NULL) {
 		char *songAdress;
 		FILE *songFile;
+		SONG *song;
+		unsigned i = 0;
 		album->name = getStrFromFile(albumFile);
 		album->year = strToUnsigned(getStrFromFile(albumFile));
-		album->songKol = strToUnsigned(getStrFromFile(albumFile));
-		album->songs = (SONG**)calloc(album->songKol, sizeof(SONG*));
-		if (album->songs != NULL) {
-			for (unsigned i = 0; i < album->songKol; i++) {
-				songAdress = getStrFromFile(albumFile);
+		do {
+			songAdress = getStrFromFile(albumFile);
+			if (songAdress[0] != '\0') {
 				songFile = fopen(songAdress, "r");
 				if (songFile == NULL) {
-					printf("Ошибка открытия файла %s.\n", songAdress);
+					printf("Ошибка открытия файла\n%s.\n", songAdress);
 				}
 				else {
-					album->songs[i] = getSongFromFile(songFile);
-					if (album->songs[i] == NULL) {
-						album->songKol = i;
-					}
-					else {
+					song = getSongFromFile(songFile);
+					if (song != NULL) {
+						album->songs = (SONG**)realloc(album->songs, (i + 1) * sizeof(SONG*));
+						album->songs[i] = song;
 						album->songs[i]->album = album;
+						i++;
 					}
+					fclose(songFile);
 				}
-				fclose(songFile);
 			}
-		}
-		else {
-			puts("Ошибка. Недостаточно памяти.");
-			album->songKol = 0;
+		} while (songAdress[0] != '\0');
+		album->songKol = i;
+		if (i == 0) {
+			puts("Ни одной песни не введено. Альбом не создан.");
 			album = deleteAlbum(album);
 			return NULL;
 		}
@@ -121,7 +121,7 @@ ALBUM *getAlbumFromFile(FILE *albumFile){
 
 ALBUM *getAlbum(){
 	ALBUM *album = NULL;
-	char choise, choise2;
+	char choise;
 	FILE *file = NULL;
 	do {
 		system("cls");
@@ -142,6 +142,7 @@ ALBUM *getAlbum(){
 				}
 				else {
 					album = getAlbumFromFile(file);
+					fclose(file);
 				}
 			} while (file == NULL);
 			break;
@@ -158,9 +159,8 @@ ALBUM *getAlbum(){
 		puts("Добавить альбом не удалось.");
 	}
 	else {
-		puts("Альбом успешно добавлен в базу.");
+		puts("Альбом добавлен в базу.");
 	}
-	system("pause");
 	return album;
 }
 //Работает
@@ -246,9 +246,36 @@ void printAlbumInfo(ALBUM *album) {
 }
 //Работает
 
+unsigned notSongInAlbum() {
+	char choise;
+	do {
+		system("cls");
+		puts("Песни с таким номером нет. Ввести другой номер?");
+		puts("(1) - Да.");
+		puts("(2) - Нет.");
+		choise = _getch();
+		switch (choise) {
+		case '1': {
+			return 0;
+			break;
+		}
+		case '2': {
+			return 1;
+			break;
+		}
+		default: {
+			system("cls");
+			puts("Пункта с таким номером нет!");
+			system("pause");
+			break;
+		}
+		}
+	} while (choise < 49 || choise > 50);
+}
+//Работает
+
 void printSongFromAlbum(ALBUM *album) {
 	unsigned num = 0;
-	char choise;
 	do {
 		system("cls");
 		printAlbum(album);
@@ -259,29 +286,7 @@ void printSongFromAlbum(ALBUM *album) {
 			break;
 		}
 		else {
-			do {
-				system("cls");
-				puts("Песни с таким номером нет. Ввести другой номер?");
-				puts("(1) - Да.");
-				puts("(2) - Нет.");
-				choise = _getch();
-				switch (choise) {
-				case '1': {
-					num = 0;
-					break;
-				}
-				case '2': {
-					num = 1;
-					break;
-				}
-				default: {
-					system("cls");
-					puts("Пункта с таким номером нет!");
-					system("pause");
-					break;
-				}
-				}
-			} while (choise < 49 || choise > 50);
+			num = notSongInAlbum();
 		}
 	} while (num == 0);
 }
@@ -289,7 +294,6 @@ void printSongFromAlbum(ALBUM *album) {
 
 ALBUM *deleteSongFromAlbum(ALBUM *album) {
 	unsigned num = 0;
-	char choise;
 	do {
 		system("cls");
 		printAlbum(album);
@@ -310,29 +314,7 @@ ALBUM *deleteSongFromAlbum(ALBUM *album) {
 			break;
 		}
 		else {
-			do {
-				system("cls");
-				puts("Песни с таким номером нет. Ввести другой номер?");
-				puts("(1) - Да.");
-				puts("(2) - Нет.");
-				choise = _getch();
-				switch (choise) {
-				case '1': {
-					num = 0;
-					break;
-				}
-				case '2': {
-					num = 1;
-					break;
-				}
-				default: {
-					system("cls");
-					puts("Пункта с таким номером нет!");
-					system("pause");
-					break;
-				}
-				}
-			} while (choise < 49 || choise > 50);
+			num = notSongInAlbum();
 		}
 	} while (num == 0);
 	return album;
@@ -362,7 +344,7 @@ ALBUM *changeAlbum(ALBUM *album) {
 			break;
 		}
 		case '3': {
-			
+			printSongFromAlbum(album);
 			break;
 		}
 		case '4': {
@@ -384,7 +366,7 @@ ALBUM *changeAlbum(ALBUM *album) {
 			break;
 		}
 		}
-	} while (choise < 49 || choise > 52);
+	} while (choise < 49 || choise > 54);
 	return album;
 }
 //Работает

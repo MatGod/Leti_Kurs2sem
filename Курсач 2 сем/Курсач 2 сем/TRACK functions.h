@@ -1,78 +1,32 @@
 #include "BASE functions.h"
 
-TRACK *setPlaylist(TRACK *playlist){
+void deleteTrack(TRACK **playlist, TRACK *track) {
+	if (track == *playlist) {
+		*playlist = track->next;
+	}
+	track->prev->next = track->next;
+	track->next->prev = track->prev;
+	free(track);
+}
+
+TRACK *setPlaylist(TRACK *playlist) {
 	return playlist;
 }
 
-TRACK *changePlaylist(TRACK *playlist){
-	char choise, choise4;
-	do {
-		system("cls");
-		puts("Нажмите клавишу с соответствующим номером пункта:");
-		puts("(1) - Добавить песни.");
-		puts("(2) - Удалить песни.");
-		puts("(3) - Сортировать плейлист.");
-		puts("(4) - Перемешать плейлист.");
-		choise = _getch();
-		switch (choise) {
-		case '1': { // добавить
-			do{
-				system("cls");
-				puts("Нажмите клавишу с соответствующим номером пункта:");
-				puts("Добавить:");
-				puts("(1) - Все песни одного исполнителя.");
-				puts("(2) - Все песни из одного альбома.");
-				puts("(3) - Все песни одного года выхода.");
-				puts("(4) - Конкретную песню.");
-				choise4 = _getch();
-				switch (choise4) {
-				case '1':{
-
-					break;
-				}
-				case '2': {
-
-					break;
-				}
-				case '3': {
-
-					break;
-				}
-				case '4': {
-
-					break;
-				}
-				default:{
-					system("cls");
-					puts("Пункта с таким номером нет!");
-					system("pause");
-					break;
-				}
-				}
-			} while ((choise4 < 49) || (choise4 > 52));
-			break;
-		}
-		case '2': {
-			break;
-		}
-		case '3': {
-			break;
-		}
-		case '4': {
-			break;
-		}
-		default: {
-			system("cls");
-			puts("Пункта с таким номером нет!");
-			system("pause");
-			break;
-		}
-		}
-	} while ((choise < 49) || (choise > 52));
-	system("pause");
+TRACK *changePlaylist(TRACK *playlist) {
+	
 	return playlist;
 }
 
-TRACK *deletePlaylist(TRACK *playlist){
-	return playlist;
+TRACK *deletePlaylist(TRACK *playlist) {
+	TRACK *track = playlist->next;
+	playlist->prev->next = NULL;
+	while (playlist != NULL) {
+		free(playlist);
+		playlist = track;
+		if (track != NULL) {
+			track = track->next;
+		}
+	}
+	return NULL;
 }

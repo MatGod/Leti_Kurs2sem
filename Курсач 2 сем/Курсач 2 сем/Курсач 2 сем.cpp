@@ -2,12 +2,11 @@
 #include "TRACK functions.h"
 #pragma warning (disable: 4996)
 
-/*int _tmain(int argc, _TCHAR* argv[])
+int _tmain(int argc, _TCHAR* argv[])
 {
 	setlocale(LC_ALL, "Russian");
 	char choise1, choise2;
-	char ch;
-	AUTHOR **base = NULL;
+	BASE *base = NULL;
 	unsigned authors = 0;
 	TRACK *playlist = NULL;
 	do {
@@ -34,7 +33,7 @@
 					break;
 				}
 				case '2': {
-					base = сhangeBase(base);
+					base = changeBase(base);;
 					break;
 				}
 				case '3': {
@@ -51,7 +50,7 @@
 			} while ((choise2 < 49) || (choise2 > 51));
 			break;
 		}
-		case '2': { // работа с плейлистом
+		case '2': {
 			system("cls");
 			puts("Нажмите клавишу с соответствующим номером пункта:");
 			puts("(1) - Создать новый плейлист.");
@@ -87,6 +86,10 @@
 			break;
 		}
 		case '0': {
+			if (base != NULL) {
+				base = deleteBase(base);
+			}
+			puts("Выход из программы...");
 			break;
 		}
 		default: {
@@ -96,17 +99,7 @@
 			break;
 		}
 		}
+		system("pause");
 	} while (choise1 != '0');
-	puts("Выход из программы...");
-	_getch();
-	return 0;
-}
-*/
-
-int _tmain(int argc, _TCHAR* argv[]) {
-	setlocale(LC_ALL, "Russian");
-	BASE *base = getBase();
-	printBase(base);
-	system("pause");
 	return 0;
 }

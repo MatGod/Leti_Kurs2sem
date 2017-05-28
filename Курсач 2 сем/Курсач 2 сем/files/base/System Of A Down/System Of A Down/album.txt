@@ -1,6 +1,5 @@
 System Of A down
 1997
-7
 files/base/System Of A Down/System Of A Down/Suite-Pee.txt
 files/base/System Of A Down/System Of A Down/Mind.txt
 files/base/System Of A Down/System Of A Down/P.L.U.C.K.txt
@@ -11,7 +10,7 @@ files/base/System Of A Down/System Of A Down/Know.txt
 files/base/System Of A Down/System Of A Down/DDevil.txt
 files/base/System Of A Down/System Of A Down/CUBErt.txt
 files/base/System Of A Down/System Of A Down/Peephole.txt
-files/base/System Of A Down/System Of A Down/War?.txt
+files/base/System Of A Down/System Of A Down/War.txt
 files/base/System Of A Down/System Of A Down/Darts.txt
 files/base/System Of A Down/System Of A Down/Spiders.txt
 files/base/System Of A Down/System Of A Down/Blue.txt

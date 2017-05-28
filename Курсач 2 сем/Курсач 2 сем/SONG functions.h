@@ -6,15 +6,22 @@ SONG *getSongFromFile(FILE *file)
 {
 	SONG *song = (SONG*)calloc(1, sizeof(SONG));
 	if (song != NULL) {
-		char *str;
+		char **test;
 		song->name = getStrFromFile(file);
 		unsigned i = 0;
 		do {
-			song->text = (char**)realloc(song->text, (i + 1) * sizeof(char*));
-			song->text[i] = getStrFromFile(file);
-			i++;
+			test = (char**)realloc(song->text, (i + 1) * sizeof(char*));
+			if (test != NULL) {
+				song->text = test;
+				song->text[i] = getStrFromFile(file);
+				i++;
+			}
+			else {
+				song->text[i - 1] = "\0";
+				break;
+			}
 		} while (song->text[i - 1][0] != '\0');
-		printf("Песня %s успешно считана.\n", song->name);
+		printf("Песня %s считана.\n", song->name);
 	}
 	else {
 		puts("Ошибка. Недостаточно памяти.");
@@ -28,6 +35,7 @@ SONG *getSongFromKeyboard(){
 	if (song != NULL) {
 		system("cls");
 		char *str;
+		char **test;
 		unsigned kol = 0;
 		printf("Введите название песни: ");
 		song->name = getStr();
@@ -37,8 +45,15 @@ SONG *getSongFromKeyboard(){
 			str = getStr();
 			puts("");
 			kol++;
-			song->text = (char**)realloc(song->text, kol * sizeof(char*));
-			song->text[kol - 1] = str;
+			test = (char**)realloc(song->text, kol * sizeof(char*));
+			if (test != NULL) {
+				song->text = test;
+				song->text[kol - 1] = str;
+			}
+			else {
+				song->text[kol - 1] = "\0";
+				break;
+			}
 		} while (str[0] != '\0');
 	}
 	else {

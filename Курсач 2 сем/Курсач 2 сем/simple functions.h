@@ -5,6 +5,7 @@
 char* getStr(){
 	char ch;
 	char *str = NULL;
+	char *test = NULL;
 	unsigned kol = 0;
 	do{
 		ch = _getch();
@@ -17,19 +18,32 @@ char* getStr(){
 		}
 		else{
 			kol++;
-			str = (char*)realloc(str, kol * sizeof(char));
-			str[kol - 1] = ch;
-			printf("%c", ch);
+			test = (char*)realloc(str, kol * sizeof(char));
+			if (test != NULL) {
+				str = test;
+				str[kol - 1] = ch;
+				printf("%c", ch);
+			}
+			else {
+				puts("\nОшибка. Недостаточно памяти. Ввод прерван.");
+				break;
+			}
 		}
 	} while (ch != '\r');
-	str[kol - 1] = '\0';
-	return str;
+	if (str != NULL) {
+		str[kol - 1] = '\0';
+		return str;
+	}
+	else {
+		return "\0";
+	}
 }
 //Работает
 
 char* getStrFromFile(FILE *file){
 	char ch;
 	char *str = NULL;
+	char *test = NULL;
 	unsigned kol = 0;
 	do{
 		ch = getc(file);
@@ -37,11 +51,24 @@ char* getStrFromFile(FILE *file){
 			ch = '\n';
 		}
 		kol++;
-		str = (char*)realloc(str, kol*sizeof(char));
-		str[kol - 1] = ch;
+		test = (char*)realloc(str, kol*sizeof(char));
+		if (test != NULL) {
+			str = test;
+			str[kol - 1] = ch;
+		}
+		else {
+			puts("\nОшибка. Недостаточно памяти. Ввод прерван.");
+			kol--;
+			break;
+		}
 	} while (ch != '\n');
-	str[kol - 1] = '\0';
-	return str;
+	if (str != NULL) {
+		str[kol - 1] = '\0';
+		return str;
+	}
+	else {
+		return "\0";
+	}
 }
 //Работает
 
