@@ -12,7 +12,9 @@ AUTHOR *getLastAuthor(BASE *base) {
 BASE *deleteBase(BASE *base, bool *chB) {
 	AUTHOR *author = NULL;
 	if (base != NULL) {
-		author = base->authors->next;
+		if (base->authors != NULL) { 
+			author = base->authors->next;
+		}
 		while (base->authors != NULL) {
 			base->authors = deleteAuthor(base->authors, chB);
 			base->authors = author;
@@ -20,6 +22,7 @@ BASE *deleteBase(BASE *base, bool *chB) {
 				author = author->next;
 			}
 		}
+		free(base);
 		puts("База удалена.");
 	}
 	return NULL;
@@ -53,6 +56,10 @@ BASE *getBaseFromKeyboard() {
 			}
 			break;
 		}
+	}
+	if (kol < 1) {
+		free(base);
+		return NULL;
 	}
 	return base;
 }
@@ -92,8 +99,9 @@ BASE *getBaseFromFile(FILE *file) {
 			}
 		} while (authorAdress[0] != '\0');
 		if (base->authors == NULL) {
-			base = deleteBase(base, &a);
+			free(base);
 			puts("Не удалось ввести ни одного исполнителя. База не введена.");
+			return NULL;
 		}
 	}
 	else {

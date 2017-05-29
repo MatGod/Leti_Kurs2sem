@@ -26,31 +26,37 @@ ALBUM *getAlbumFromKeyboard(){
 		system("cls");
 		printf("Введите количество песен в альбоме: ");
 		album->songKol = strToUnsigned(getStr());
-		album->songs = (SONG**)calloc(album->songKol, sizeof(SONG*));
-		if (album->songs == NULL){
-			do {
-				system("cls");
-				puts("Ошибка выделения памяти! Ввести другое количество песен?");
-				puts("(1) - Да.");
-				puts("(2) - Нет.");
-				choise = _getch();
-				switch (choise){
-				case '1': {
-					break;
-				}
-				case '2': {
-					album->songKol = 0;
-					album = deleteAlbum(album, &a);
-					return NULL;
-				}
-				default: {
+		if (album->songKol > 0) {
+			album->songs = (SONG**)calloc(album->songKol, sizeof(SONG*));
+			if (album->songs == NULL) {
+				do {
 					system("cls");
-					puts("Пункта с таким номером нет!");
-					system("pause");
-					break;
-				}
-				}
-			} while (choise < 49 || choise > 50);
+					puts("Ошибка выделения памяти! Ввести другое количество песен?");
+					puts("(1) - Да.");
+					puts("(2) - Нет.");
+					choise = _getch();
+					switch (choise) {
+					case '1': {
+						break;
+					}
+					case '2': {
+						album->songKol = 0;
+						album = deleteAlbum(album, &a);
+						return NULL;
+					}
+					default: {
+						system("cls");
+						puts("Пункта с таким номером нет!");
+						system("pause");
+						break;
+					}
+					}
+				} while (choise < 49 || choise > 50);
+			}
+		}
+		else {
+			album = deleteAlbum(album, &a);
+			return NULL;
 		}
 	} while (album->songs == NULL && choise == '1');
 	if (album->songs != NULL){

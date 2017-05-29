@@ -16,6 +16,7 @@ AUTHOR *getAuthorFromFile(FILE *file){
 	system("cls");
 	FILE *albumFile = NULL;
 	char *albumAdress;
+	bool a;
 	AUTHOR *author = (AUTHOR*)calloc(1, sizeof(AUTHOR));
 	if (author != NULL) {
 		author->name = getStrFromFile(file);
@@ -43,6 +44,7 @@ AUTHOR *getAuthorFromFile(FILE *file){
 		} while (albumAdress[0] != '\0');
 		author->albKol = i;
 		if (i == 0) {
+			author = deleteAuthor(author, &a);
 			puts("Ни один альбом не введён. Исполнитель не создан.");
 		}
 	}
@@ -64,29 +66,35 @@ AUTHOR *getAuthorFromKeyboard() {
 		system("cls");
 		printf("Введите количество альбомов: ");
 		author->albKol = strToUnsigned(getStr());
-		author->albums = (ALBUM**)calloc(author->albKol, sizeof(SONG*));
-		if (author->albums == NULL) {
-			do {
-				system("cls");
-				puts("Недостаточно памяти! Ввести другое количество альбомов?");
-				puts("(1) - Да.");
-				puts("(2) - Нет.");
-				choise = _getch();
-				switch (choise) {
-				case '1': {
-					break;
-				}
-				case '2': {
-					return NULL;
-				}
-				default: {
+		if (author->albKol > 0) {
+			author->albums = (ALBUM**)calloc(author->albKol, sizeof(SONG*));
+			if (author->albums == NULL) {
+				do {
 					system("cls");
-					puts("Пункта с таким номером нет!");
-					system("pause");
-					break;
-				}
-				}
-			} while (choise < 49 || choise > 50);
+					puts("Недостаточно памяти! Ввести другое количество альбомов?");
+					puts("(1) - Да.");
+					puts("(2) - Нет.");
+					choise = _getch();
+					switch (choise) {
+					case '1': {
+						break;
+					}
+					case '2': {
+						return NULL;
+					}
+					default: {
+						system("cls");
+						puts("Пункта с таким номером нет!");
+						system("pause");
+						break;
+					}
+					}
+				} while (choise < 49 || choise > 50);
+			}
+		}
+		else {
+			author = deleteAuthor(author, &a);
+			return NULL;
 		}
 	} while (author->albums == NULL && choise == '1');
 	if (author->albums != NULL) {

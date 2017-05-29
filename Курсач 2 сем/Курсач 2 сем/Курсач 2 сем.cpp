@@ -8,7 +8,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	char choise1, choise2;
 	BASE *base = NULL;
 	TRACK *playlist = NULL;
-	bool chB;
+	bool chB = false;
 	do {
 		system("cls");
 		puts("Нажмите клавишу с соответствующим номером пункта:");
@@ -53,6 +53,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		case '2': {
 			do {
 				if (chB == true & playlist != NULL) {
+					chB = false;
 					playlist = deletePlaylist(playlist);
 					puts("Обнаружено удаление песен из базы. Плейлист был очищен.");
 					system("pause");

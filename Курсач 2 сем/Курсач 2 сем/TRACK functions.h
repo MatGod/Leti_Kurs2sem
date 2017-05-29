@@ -19,7 +19,7 @@ unsigned *randomMas(unsigned size) {
 	unsigned *mas = (unsigned*)calloc(size, sizeof(unsigned));
 	if (mas != NULL) {
 		for (unsigned i = 0; i < size; i++) {
-			mas[i] = rand() % size;
+			mas[i] = rand() % (size - 1);
 		}
 	}
 	else {
@@ -69,13 +69,15 @@ TRACK *deleteTrack(TRACK *playlist, TRACK *track) {
 //Работает
 
 TRACK *deletePlaylist(TRACK *playlist) {
-	TRACK *track = playlist->next;
-	playlist->prev->next = NULL;
-	while (playlist != NULL) {
-		free(playlist);
-		playlist = track;
-		if (track != NULL) {
-			track = track->next;
+	if (playlist != NULL) {
+		TRACK *track = playlist->next;
+		playlist->prev->next = NULL;
+		while (playlist != NULL) {
+			free(playlist);
+			playlist = track;
+			if (track != NULL) {
+				track = track->next;
+			}
 		}
 	}
 	return NULL;
