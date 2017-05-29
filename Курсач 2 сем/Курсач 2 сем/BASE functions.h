@@ -9,14 +9,12 @@ AUTHOR *getLastAuthor(BASE *base) {
 }
 //Работает
 
-BASE *deleteBase(BASE *base) {
+BASE *deleteBase(BASE *base, bool *chB) {
 	AUTHOR *author = NULL;
-	if (base->authors != NULL) {
+	if (base != NULL) {
 		author = base->authors->next;
-	}
-	else {
 		while (base->authors != NULL) {
-			base->authors = deleteAuthor(base->authors);
+			base->authors = deleteAuthor(base->authors, chB);
 			base->authors = author;
 			if (author != NULL) {
 				author = author->next;
@@ -29,6 +27,7 @@ BASE *deleteBase(BASE *base) {
 //Работает
 
 BASE *getBaseFromKeyboard() {
+	bool a;
 	BASE *base = (BASE*)calloc(1, sizeof(BASE));
 	unsigned kol;
 	AUTHOR *author = NULL, *lastAuthor = NULL;
@@ -38,20 +37,18 @@ BASE *getBaseFromKeyboard() {
 	for (unsigned i = 1; i <= kol; i++) {
 		author = getAuthorFromKeyboard();
 		if (author != NULL) {
-			lastAuthor = author;
 			if (i == 1) {
 				base->authors = author;
-				lastAuthor = author;
 			}
 			else {
 				lastAuthor->next = author;
-				lastAuthor = lastAuthor->next;
 			}
+			lastAuthor = author;
 		}
 		else {
 			printf("Ошибка. Количество успешно введённых исполнителей - %d.\n", i - 1);
 			if (i == 1) {
-				base = deleteBase(base);
+				base = deleteBase(base, &a);
 				base = NULL;
 			}
 			break;
@@ -62,6 +59,7 @@ BASE *getBaseFromKeyboard() {
 //Работает
 
 BASE *getBaseFromFile(FILE *file) {
+	bool a;
 	BASE *base = (BASE*)calloc(1, sizeof(BASE));
 	if (base != NULL) {
 		FILE *authorFile = NULL;
@@ -78,12 +76,11 @@ BASE *getBaseFromFile(FILE *file) {
 						lastAuthor = author;
 						if (base->authors == NULL) {
 							base->authors = author;
-							lastAuthor = author;
 						}
 						else {
 							lastAuthor->next = author;
-							lastAuthor = lastAuthor->next;
 						}
+						lastAuthor = author;
 					}
 					else {
 						printf("Ошибка. Не удалось ввести исполнителя из %s.\n", authorAdress);
@@ -95,7 +92,7 @@ BASE *getBaseFromFile(FILE *file) {
 			}
 		} while (authorAdress[0] != '\0');
 		if (base->authors == NULL) {
-			base = deleteBase(base);
+			base = deleteBase(base, &a);
 			puts("Не удалось ввести ни одного исполнителя. База не введена.");
 		}
 	}
@@ -106,9 +103,9 @@ BASE *getBaseFromFile(FILE *file) {
 }
 //Работает
 
-BASE *getBase(BASE *base) {
+BASE *getBase(BASE *base, bool *chB) {
 	if (base != NULL) {
-		base = deleteBase(base);
+		base = deleteBase(base, chB);
 	}
 	char choise;
 	FILE *file;
@@ -161,6 +158,7 @@ void printBase(BASE *base) {
 	else {
 		AUTHOR *author = base->authors;
 		unsigned i = 1;
+		puts("Исполнители в базе:");
 		while (author != NULL) {
 			printf("%d - %s\n", i, author->name);
 			i++;
@@ -198,7 +196,7 @@ unsigned notAuthorInBase() {
 }
 //Работает
 
-BASE *deleteAuthorFromBase(BASE *base) {
+BASE *deleteAuthorFromBase(BASE *base, bool *chB) {
 	AUTHOR *author;
 	AUTHOR *prevAuthor;
 	unsigned num;
@@ -206,7 +204,6 @@ BASE *deleteAuthorFromBase(BASE *base) {
 		printBase(base);
 		author = base->authors;
 		prevAuthor = NULL;
-		system("cls");
 		puts("Введите номер исполнителя, которого хотите удалить.");
 		num = strToUnsigned(getStr());
 		if (num > 0) {
@@ -225,12 +222,12 @@ BASE *deleteAuthorFromBase(BASE *base) {
 			else {
 				base->authors = author->next;
 			}
-			author = deleteAuthor(author);
+			author = deleteAuthor(author, chB);
 			break;
 		}
 	} while (num == 0);
 	if (base->authors == NULL) {
-		base = deleteBase(base);
+		base = deleteBase(base, chB);
 		puts("Из базы удалён единственный исполнитель. База пуста.");
 	}
 	return base;
@@ -243,7 +240,7 @@ void addAuthorToBase(BASE *base) {
 }
 //Работает
 
-BASE *changeAuthorInBase(BASE *base) {
+BASE *changeAuthorInBase(BASE *base, bool *chB) {
 	AUTHOR *author;
 	AUTHOR *prevAuthor;
 	AUTHOR *nextAuthor;
@@ -266,7 +263,7 @@ BASE *changeAuthorInBase(BASE *base) {
 			num = notAuthorInBase();
 		}
 		else {
-			author = changeAuthor(author);
+			author = changeAuthor(author, chB);
 			if (author == NULL) {
 				if (prevAuthor != NULL) {
 					prevAuthor->next = nextAuthor;
@@ -279,14 +276,14 @@ BASE *changeAuthorInBase(BASE *base) {
 		}
 	} while (num == 0);
 	if (base->authors == NULL) {
-		base = deleteBase(base);
+		base = deleteBase(base, chB);
 		puts("Из базы удалён единственный исполнитель. База пуста.");
 	}
 	return base;
 }
 //Работает
 
-BASE *changeBase(BASE *base) {
+BASE *changeBase(BASE *base, bool *chB) {
 	if (base == NULL) {
 		puts("База пуста.");
 	}
@@ -311,11 +308,11 @@ BASE *changeBase(BASE *base) {
 				break;
 			}
 			case '3': {
-				base = changeAuthorInBase(base);
+				base = changeAuthorInBase(base, chB);
 				break;
 			}
 			case '4': {
-				base = deleteAuthorFromBase(base);
+				base = deleteAuthorFromBase(base, chB);
 				break;
 			}
 			default: {

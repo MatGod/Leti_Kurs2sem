@@ -7,8 +7,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	setlocale(LC_ALL, "Russian");
 	char choise1, choise2;
 	BASE *base = NULL;
-	unsigned authors = 0;
 	TRACK *playlist = NULL;
+	bool chB;
 	do {
 		system("cls");
 		puts("Нажмите клавишу с соответствующим номером пункта:");
@@ -20,24 +20,24 @@ int _tmain(int argc, _TCHAR* argv[])
 		switch (choise1)
 		{
 		case '1': {
-			system("cls");
-			puts("Нажмите клавишу с соответствующим номером пункта:");
-			puts("(1) - Создать новую базу.");
-			puts("(2) - Изменить/посмотреть существующую базу.");
-			puts("(3) - Удалить базу.");
-			choise2 = _getch();
 			do {
+				system("cls");
+				puts("Нажмите клавишу с соответствующим номером пункта:");
+				puts("(1) - Создать новую базу.");
+				puts("(2) - Изменить/посмотреть существующую базу.");
+				puts("(3) - Удалить базу.");
+				choise2 = _getch();
 				switch (choise2) {
 				case '1': {
-					base = getBase(base);
+					base = getBase(base, &chB);
 					break;
 				}
 				case '2': {
-					base = changeBase(base);;
+					base = changeBase(base, &chB);;
 					break;
 				}
 				case '3': {
-					base = deleteBase(base);
+					base = deleteBase(base, &chB);
 					break;
 				}
 				default:{
@@ -51,23 +51,33 @@ int _tmain(int argc, _TCHAR* argv[])
 			break;
 		}
 		case '2': {
-			system("cls");
-			puts("Нажмите клавишу с соответствующим номером пункта:");
-			puts("(1) - Создать новый плейлист.");
-			puts("(2) - Редактировать/посмотреть текущий плейлист.");
-			puts("(3) - Удалить текущий плейлист.");
-			choise2 = _getch();
 			do {
+				if (chB == true & playlist != NULL) {
+					playlist = deletePlaylist(playlist);
+					puts("Обнаружено удаление песен из базы. Плейлист был очищен.");
+					system("pause");
+				}
+				system("cls");
+				puts("Нажмите клавишу с соответствующим номером пункта:");
+				puts("(1) - Создать новый плейлист.");
+				puts("(2) - Вывести плейлист на экран.");
+				puts("(3) - Редактировать текущий плейлист.");
+				puts("(4) - Удалить текущий плейлист.");
+				choise2 = _getch();
 				switch (choise2) {
 				case '1': {
-					playlist = setPlaylist(playlist);
+					playlist = setPlaylist(playlist, base);
 					break;
 				}
 				case '2': {
-					playlist = changePlaylist(playlist);
+					printPlaylist(playlist);
 					break;
 				}
 				case '3': {
+					playlist = changePlaylist(playlist);
+					break;
+				}
+				case '4': {
 					playlist = deletePlaylist(playlist);
 					break;
 				}
@@ -78,7 +88,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					break;
 				}
 				}
-			} while ((choise2 < 49) || (choise2 > 51));
+			} while ((choise2 < 49) || (choise2 > 52));
 			break;
 		}
 		case '3': {
@@ -87,7 +97,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		case '0': {
 			if (base != NULL) {
-				base = deleteBase(base);
+				base = deleteBase(base, &chB);
 			}
 			puts("Выход из программы...");
 			break;

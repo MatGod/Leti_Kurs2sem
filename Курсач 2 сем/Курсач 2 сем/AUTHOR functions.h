@@ -1,10 +1,10 @@
 #include "ALBUM functions.h"
 #pragma warning (disable: 4996)
 
-AUTHOR *deleteAuthor(AUTHOR *author) {
+AUTHOR *deleteAuthor(AUTHOR *author, bool *chB) {
 	free(author->name);
 	for (unsigned i = 0; i < author->albKol; i++) {
-		author->albums[i] = deleteAlbum(author->albums[i]);
+		author->albums[i] = deleteAlbum(author->albums[i], chB);
 	}
 	free(author->albums);
 	free(author);
@@ -54,6 +54,7 @@ AUTHOR *getAuthorFromFile(FILE *file){
 //Работает
 
 AUTHOR *getAuthorFromKeyboard() {
+	bool a;
 	AUTHOR *author = (AUTHOR*)calloc(1, sizeof(ALBUM));
 	char choise = '1';
 	system("cls");
@@ -99,7 +100,7 @@ AUTHOR *getAuthorFromKeyboard() {
 				author->albKol = i;
 				author->albums = (ALBUM**)realloc(author->albums, author->albKol*sizeof(SONG*));
 				if (i == 0) {
-					author = deleteAuthor(author);
+					author = deleteAuthor(author, &a);
 				}
 				break;
 			}
@@ -107,7 +108,7 @@ AUTHOR *getAuthorFromKeyboard() {
 	}
 	else {
 		author->albKol = 0;
-		author = deleteAuthor(author);
+		author = deleteAuthor(author, &a);
 	}
 	return author;
 }
@@ -160,6 +161,7 @@ AUTHOR *getAuthor() {
 //Работает
 
 void addAlbumToAuthor(AUTHOR *author) {
+	bool a;
 	ALBUM *album = NULL;
 	FILE *albumFile = NULL;
 	char choise;
@@ -210,7 +212,7 @@ void addAlbumToAuthor(AUTHOR *author) {
 		}
 		else {
 			puts("Ошибка. Недостаточно памяти.");
-			album = deleteAlbum(album);
+			album = deleteAlbum(album, &a);
 		}
 	}
 	else {
@@ -256,7 +258,7 @@ unsigned notAlbumInAuthor() {
 }
 //Работает
 
-AUTHOR *deleteAlbumFromAuthor(AUTHOR *author) {
+AUTHOR *deleteAlbumFromAuthor(AUTHOR *author, bool *chB) {
 	unsigned num = 0;
 	do {
 		system("cls");
@@ -265,11 +267,11 @@ AUTHOR *deleteAlbumFromAuthor(AUTHOR *author) {
 		num = strToUnsigned(getStr());
 		if (num > 0 && num <= author->albKol) {
 			if (author->albKol == 1) {
-				author = deleteAuthor(author);
+				author = deleteAuthor(author, chB);
 			}
 			else {
 				author->albKol--;
-				author->albums[num - 1] = deleteAlbum(author->albums[num - 1]);
+				author->albums[num - 1] = deleteAlbum(author->albums[num - 1], chB);
 				for (unsigned i = num - 1; i < author->albKol; i++) {
 					author->albums[i] = author->albums[i + 1];
 				}
@@ -285,7 +287,7 @@ AUTHOR *deleteAlbumFromAuthor(AUTHOR *author) {
 }
 //Работает
 
-AUTHOR *changeAlbumInAuthor(AUTHOR *author) {
+AUTHOR *changeAlbumInAuthor(AUTHOR *author, bool *chB) {
 	unsigned num;
 	do {
 		system("cls");
@@ -293,11 +295,11 @@ AUTHOR *changeAlbumInAuthor(AUTHOR *author) {
 		puts("Введите номер альбома, который хотите изменить: ");
 		num = strToUnsigned(getStr());
 		if (num > 0 && num <= author->albKol) {
-			author->albums[num - 1] = changeAlbum(author->albums[num - 1]);
+			author->albums[num - 1] = changeAlbum(author->albums[num - 1], chB);
 			if (author->albums[num - 1] == NULL) {
 				author->albKol--;
 				if (num == 1) {
-					author = deleteAuthor(author);
+					author = deleteAuthor(author, chB);
 				}
 				else{
 					for (unsigned i = num - 1; i < author->albKol; i++) {
@@ -316,7 +318,7 @@ AUTHOR *changeAlbumInAuthor(AUTHOR *author) {
 }
 //Работает
 
-AUTHOR *changeAuthor(AUTHOR *author) {
+AUTHOR *changeAuthor(AUTHOR *author, bool *chB) {
 	char choise;
 	do {
 		system("cls");
@@ -338,15 +340,15 @@ AUTHOR *changeAuthor(AUTHOR *author) {
 			break;
 		}
 		case '3': {
-			author = changeAlbumInAuthor(author);
+			author = changeAlbumInAuthor(author, chB);
 			break;
 		}
 		case '4': {
-			author = deleteAlbumFromAuthor(author);
+			author = deleteAlbumFromAuthor(author, chB);
 			break;
 		}
 		case '5': {
-			author = deleteAuthor(author);
+			author = deleteAuthor(author, chB);
 			break;
 		}
 		default: {

@@ -133,3 +133,43 @@ void FAQ(){
 	system("pause");
 }
 //Работает
+
+bool equalStrs(char *str1, char *str2) {
+	unsigned i = 0;
+	do {
+		if (str1[i] != str2[i]) {
+			return false;
+		}
+		i++;
+	} while (str1[i - 1] != '\0' && str2[i - 1] != '\0');
+	return true;
+}
+//Работает
+
+bool compareStrs(char *str1, char *str2) {
+	unsigned i = 0;
+	char ch1, ch2;
+	do {
+		if (str1[i] >= 65 && str1[i] <= 90) {
+			ch1 = str1[i] + 32;
+		}
+		else {
+			ch1 = str1[i];
+		}
+		if (str2[i] >= 65 && str2[i] <= 90) {
+			ch2 = str2[i] + 32;
+		}
+		else {
+			ch2 = str2[i];
+		}
+		if (ch1 < ch2) {
+			return false;
+		}
+		if (ch1 > ch2) {
+			return true;
+		}
+		i++;
+	} while (str1[i - 1] != '\0' && str2[i - 1] != '\0');
+	return false;
+}
+//Работает

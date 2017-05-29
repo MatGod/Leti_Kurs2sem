@@ -1,10 +1,10 @@
 #include "SONG functions.h"
 #pragma warning (disable: 4996)
 
-ALBUM *deleteAlbum(ALBUM *album) {
+ALBUM *deleteAlbum(ALBUM *album, bool *chB) {
 	free(album->name);
 	for (unsigned i = 0; i < album->songKol; i++) {
-		album->songs[i] = deleteSong(album->songs[i]);
+		album->songs[i] = deleteSong(album->songs[i], chB);
 	}
 	free(album->songs);
 	free(album);
@@ -13,6 +13,7 @@ ALBUM *deleteAlbum(ALBUM *album) {
 //Работает
 
 ALBUM *getAlbumFromKeyboard(){
+	bool a;
 	ALBUM *album = (ALBUM*)calloc(1, sizeof(ALBUM));
 	char choise = '1';
 	system("cls");
@@ -39,7 +40,7 @@ ALBUM *getAlbumFromKeyboard(){
 				}
 				case '2': {
 					album->songKol = 0;
-					album = deleteAlbum(album);
+					album = deleteAlbum(album, &a);
 					return NULL;
 				}
 				default: {
@@ -62,7 +63,7 @@ ALBUM *getAlbumFromKeyboard(){
 				album->songKol = i;
 				album->songs = (SONG**)realloc(album->songs, album->songKol*sizeof(SONG*));
 				if (i == 0) {
-					album = deleteAlbum(album);
+					album = deleteAlbum(album, &a);
 				}
 				break;
 			}
@@ -70,7 +71,7 @@ ALBUM *getAlbumFromKeyboard(){
 	}
 	else {
 		album->songKol = 0;
-		album = deleteAlbum(album);
+		album = deleteAlbum(album, &a);
 	}
 	return album;
 }
@@ -78,6 +79,7 @@ ALBUM *getAlbumFromKeyboard(){
 
 ALBUM *getAlbumFromFile(FILE *albumFile){
 	system("cls");
+	bool a;
 	ALBUM *album = (ALBUM*)calloc(1, sizeof(ALBUM));
 	if (album != NULL) {
 		char *songAdress;
@@ -108,7 +110,7 @@ ALBUM *getAlbumFromFile(FILE *albumFile){
 		album->songKol = i;
 		if (i == 0) {
 			puts("Ни одной песни не введено. Альбом не создан.");
-			album = deleteAlbum(album);
+			album = deleteAlbum(album, &a);
 			return NULL;
 		}
 	}
@@ -166,6 +168,7 @@ ALBUM *getAlbum(){
 //Работает
 
 void addSongToAlbum(ALBUM *album) {
+	bool a;
 	SONG *song = NULL;
 	FILE *songFile = NULL;
 	char choise;
@@ -216,7 +219,7 @@ void addSongToAlbum(ALBUM *album) {
 		}
 		else {
 			puts("Ошибка. Недостаточно памяти.");
-			song = deleteSong(song);
+			song = deleteSong(song, &a);
 		}
 	}
 }
@@ -292,7 +295,7 @@ void printSongFromAlbum(ALBUM *album) {
 }
 //Работает
 
-ALBUM *deleteSongFromAlbum(ALBUM *album) {
+ALBUM *deleteSongFromAlbum(ALBUM *album, bool *chB) {
 	unsigned num = 0;
 	do {
 		system("cls");
@@ -301,11 +304,11 @@ ALBUM *deleteSongFromAlbum(ALBUM *album) {
 		num = strToUnsigned(getStr());
 		if (num > 0 && num <= album->songKol) {
 			if (album->songKol == 1) {
-				album = deleteAlbum(album);
+				album = deleteAlbum(album, chB);
 			}
 			else {
 				album->songKol--;
-				album->songs[num - 1] = deleteSong(album->songs[num - 1]);
+				album->songs[num - 1] = deleteSong(album->songs[num - 1], chB);
 				for (unsigned i = num - 1; i < album->songKol; i++) {
 					album->songs[i] = album->songs[i + 1];
 				}
@@ -321,7 +324,7 @@ ALBUM *deleteSongFromAlbum(ALBUM *album) {
 }
 //Работает
 
-ALBUM *changeAlbum(ALBUM *album) {
+ALBUM *changeAlbum(ALBUM *album, bool *chB) {
 	char choise;
 	do {
 		system("cls");
@@ -352,11 +355,11 @@ ALBUM *changeAlbum(ALBUM *album) {
 			break;
 		}
 		case '5': {
-			album = deleteSongFromAlbum(album);
+			album = deleteSongFromAlbum(album, chB);
 			break;
 		}
 		case '6': {
-			album = deleteAlbum(album);
+			album = deleteAlbum(album, chB);
 			break;
 		}
 		default: {

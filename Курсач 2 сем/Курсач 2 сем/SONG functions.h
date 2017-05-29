@@ -63,8 +63,9 @@ SONG *getSongFromKeyboard(){
 }
 //Работает
 
-SONG *deleteSong(SONG *song){
+SONG *deleteSong(SONG *song, bool *chB){
 	unsigned i;
+	*chB = true;
 	free(song->name);
 	for (i = 0; song->text[i][0] != '\0'; i++){
 		free(song->text[i]);
