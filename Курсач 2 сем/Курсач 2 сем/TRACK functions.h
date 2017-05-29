@@ -45,6 +45,7 @@ void shufflePlaylist(TRACK *playlist) {
 			newTrack->song = song;
 			track = track->next;
 		}
+		free(mas);
 	}
 }
 
